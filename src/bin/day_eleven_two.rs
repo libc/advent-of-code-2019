@@ -186,7 +186,7 @@ fn main() -> std::io::Result<()> {
     let (mut minx, mut miny) = (x, y);
     let (mut maxx, mut maxy) = (x, y);
 
-    gg.insert((x,y), 1);
+    gg.insert((x, y), 1);
 
     loop {
         let color = gg.get(&(x, y)).unwrap_or(&0);
