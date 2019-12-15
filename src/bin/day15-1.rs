@@ -145,7 +145,8 @@ fn print_grid(grid: &HashMap<(i64, i64), Tile>) {
                 Tile::Empty => write!(stdout, " "),
                 Tile::Wall => write!(stdout, "#"),
                 Tile::Oxygen => write!(stdout, "O"),
-            }.unwrap();
+            }
+            .unwrap();
         }
     }
     stdout.flush().unwrap();
