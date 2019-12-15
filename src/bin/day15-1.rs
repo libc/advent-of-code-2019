@@ -6,6 +6,7 @@ use std::collections::HashMap;
 use std::collections::HashSet;
 use std::fs::File;
 use std::io::prelude::*;
+use termion::raw::IntoRawMode;
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
 enum Tile {
@@ -109,7 +110,7 @@ fn reachable_tile(grid: &HashMap<(i64, i64), Tile>, x: i64, y: i64, tile: Tile) 
     vec![]
 }
 
-fn pring_grid(grid: &HashMap<(i64, i64), Tile>) {
+fn print_grid(grid: &HashMap<(i64, i64), Tile>) {
     let mut min_x = 0;
     let mut min_y = 0;
     let mut max_x = 0;
@@ -130,18 +131,24 @@ fn pring_grid(grid: &HashMap<(i64, i64), Tile>) {
         }
     }
 
-    println!("{}{}", termion::clear::All, termion::cursor::Goto(1, 1));
+    let mut stdout = std::io::stdout().into_raw_mode().unwrap();
+    write!(stdout, "{}", termion::clear::All,);
     for y in min_y..=max_y {
+        write!(
+            stdout,
+            "{}",
+            termion::cursor::Goto(1, 1 + (y - min_y) as u16)
+        );
         for x in min_x..=max_x {
             match *grid.get(&(x, y)).unwrap_or(&Tile::Unknown) {
-                Tile::Unknown => print!("?"),
-                Tile::Empty => print!(" "),
-                Tile::Wall => print!("#"),
-                Tile::Oxygen => print!("O"),
-            }
+                Tile::Unknown => write!(stdout, "?"),
+                Tile::Empty => write!(stdout, " "),
+                Tile::Wall => write!(stdout, "#"),
+                Tile::Oxygen => write!(stdout, "O"),
+            }.unwrap();
         }
-        println!("");
     }
+    stdout.flush().unwrap();
 }
 
 fn oxygen_fill(grid: &HashMap<(i64, i64), Tile>) -> i64 {
@@ -259,10 +266,10 @@ fn main() -> std::io::Result<()> {
                     x = nx;
                     y = ny;
                 }
-                _ => panic!("unkonwn output"),
+                _ => panic!("unknown output"),
             }
         }
-        pring_grid(&grid);
+        print_grid(&grid);
     }
 
     println!(
