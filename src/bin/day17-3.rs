@@ -33,7 +33,8 @@ fn main() -> std::io::Result<()> {
     // B: L,10,L,8,L,12,R,12
 
     thread::spawn(move || {
-        for c in "A,B,A,C,A,A,C,B,C,B\nL,12,L,8,R,12\nL,10,L,8,L,12,R,12\nR,12,L,8,L,10\nn\n".bytes()
+        for c in
+            "A,B,A,C,A,A,C,B,C,B\nL,12,L,8,R,12\nL,10,L,8,L,12,R,12\nR,12,L,8,L,10\nn\n".bytes()
         {
             input.send(c as i64).unwrap();
         }

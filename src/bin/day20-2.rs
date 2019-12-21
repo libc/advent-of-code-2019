@@ -6,7 +6,7 @@ use std::io::Read;
 fn main() -> std::io::Result<()> {
     println!("{}", solve("inputs/day20_0.txt")?);
     println!("{}", solve("inputs/day20_2.txt")?);
-     println!("{}", solve("inputs/day20.txt")?);
+    println!("{}", solve("inputs/day20.txt")?);
 
     Ok(())
 }
