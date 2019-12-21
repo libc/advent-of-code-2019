@@ -1,7 +1,6 @@
 use crossbeam::crossbeam_channel::bounded;
-use crossbeam::Receiver;
-use crossbeam::Sender;
-use std::collections::HashMap;
+use std::fs::File;
+use std::io::Read;
 use std::thread;
 
 fn arg(program: &Vec<i64>, pc: usize, rb: i64, mode: i64) -> i64 {
@@ -177,4 +176,16 @@ pub fn start_intcode_thread(
     thread::spawn(move || run_program(p, a, b));
 
     (s, r2)
+}
+
+pub fn load_program(file: &str) -> std::io::Result<Vec<i64>> {
+    let mut file = File::open(file)?;
+    let mut contents = String::new();
+    file.read_to_string(&mut contents)?;
+
+    Ok(contents
+        .trim()
+        .split(",")
+        .map(|s| s.parse::<i64>().unwrap())
+        .collect::<Vec<i64>>())
 }
