@@ -35,10 +35,10 @@ fn oarg(program: &Vec<i64>, pc: usize, rb: i64, mode: i64) -> usize {
     }
 }
 
-pub fn run_program<F1, F2>(mut program: Vec<i64>, mut input: F1, output: F2)
+pub fn run_program<F1, F2>(mut program: Vec<i64>, mut input: F1, mut output: F2)
 where
     F1: FnMut() -> i64,
-    F2: Fn(i64),
+    F2: FnMut(i64),
 {
     let mut pc = 0;
     let mut rb = 0;
